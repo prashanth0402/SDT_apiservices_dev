@@ -1,0 +1,12 @@
+#Db connection
+NAME = "prashanth"
+HOST="localhost"
+USER="root"
+PASSWORD="04021999"
+PORT="3306"
+
+#NAME = "database-2"
+#HOST="database2.cfiwsouam2g0.ap-south-1.rds.amazonaws.com"
+#USER="admin"
+#PASSWORD="04021999pra"
+#PORT="3306"
