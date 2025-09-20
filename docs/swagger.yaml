@@ -1,0 +1,33 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: Simple API service with a health check endpoint.
+  title: SDT API Services
+  version: "1.0"
+paths:
+  /getconnection:
+    get:
+      consumes:
+      - application/json
+      description: Returns a simple JSON response to confirm that the API service
+        is up.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns connection status
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "405":
+          description: Method Not Allowed
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Check API Connection
+      tags:
+      - Health
+swagger: "2.0"

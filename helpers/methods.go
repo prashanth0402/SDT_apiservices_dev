@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"SDT_apiservices_dev/common"
+	"SDT_ApiServices/common"
 	"encoding/json"
 	"log"
 )
