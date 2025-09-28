@@ -1,0 +1,7 @@
+dlv debug main.go
+(dlv) break main.go:15
+(dlv) continue
+(dlv) print user
+(dlv) next
+(dlv) step
+(dlv) exit

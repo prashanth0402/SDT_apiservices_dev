@@ -1,6 +1,7 @@
 package main
 
 import (
+	config "SDT_ApiServices/Config"
 	services "SDT_ApiServices/Services"
 	"fmt"
 	"net/http"
@@ -21,6 +22,10 @@ import (
 func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer) // ✅ Global panic recovery
+	// Load .env file
+
+	cfg := config.LoadConfig()
 
 	// ✅ Register your API endpoints
 	r.MethodFunc(http.MethodGet, "/getconnection", services.GetConnection)
@@ -28,6 +33,7 @@ func main() {
 	// ✅ Swagger UI will be available at: http://localhost:8080/swagger/index.html
 	r.Get("/swagger/*", httpSwagger.WrapHandler)
 
-	fmt.Println("Server running on http://localhost:8080")
-	http.ListenAndServe(":8080", r)
+	fmt.Println("Server running on http://localhost:8080", cfg)
+	fmt.Println("http://localhost:8080/swagger/index.html")
+	http.ListenAndServe(":"+cfg.Port, r)
 }
