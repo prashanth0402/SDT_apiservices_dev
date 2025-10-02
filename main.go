@@ -3,11 +3,9 @@ package main
 import (
 	config "SDT_ApiServices/Config"
 	services "SDT_ApiServices/Services"
+	"SDT_ApiServices/middlewarex"
 	"fmt"
 	"net/http"
-
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 
 	_ "SDT_ApiServices/docs" // MUST import the generated docs
 
@@ -20,10 +18,7 @@ import (
 // @host            localhost:8080
 // @BasePath        /
 func main() {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-	r.Use(middleware.Recoverer) // ✅ Global panic recovery
-	// Load .env file
+	r := middlewarex.SetupRouter()
 
 	cfg := config.LoadConfig()
 
