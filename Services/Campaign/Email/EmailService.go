@@ -1,18 +1,16 @@
 package email
 
 import (
-	"SDT_ApiServices/common"
 	"log"
-	"net/http"
+	"time"
 )
 
-func GetCurVersion(w http.ResponseWriter, r *http.Request) {
-	log.Println("GetCurVersion (+)", r.Method)
-	(w).Header().Set("Access-Control-Allow-Origin", common.AllowOrgin)
-	(w).Header().Set("Access-Control-Allow-Credentials", "true")
-	(w).Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
-	(w).Header().Set("Access-Control-Allow-Headers", "Accept,Content-Type,Content-Length,Accept-Encoding,X-CSRF-Token,Authorization,userdevice")
-	if r.Method == http.MethodPost {
+type EmailSender struct{}
 
-	}
+// SendEmail simulates sending an email (replace with SMTP/SendGrid/SES logic)
+func (e EmailSender) SendEmail(email EmailInput) error {
+	time.Sleep(10 * time.Millisecond) // simulate sending
+	log.Printf("[EMAIL] From: %s, To: %v, CC: %v, BCC: %v, Subject: %s",
+		email.F, email.T, email.C, email.BC, email.S)
+	return nil
 }

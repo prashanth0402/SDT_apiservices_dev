@@ -8,15 +8,15 @@ import (
 )
 
 type EmailInput struct {
-	F  string //From
-	T  string // To
-	S  string //Subject
-	B  string //Body
-	BC string //BCC
-	C  string //CC
+	F  string `json:"from" validate:"required,email"`           // From email (required, must be valid email)
+	T  string `json:"to" validate:"required,email"`             // To recipient (required, must be valid email)
+	S  string `json:"subject" validate:"required"`              // Subject (required)
+	B  string `json:"body" validate:"required"`                 // Body (required)
+	BC string `json:"bcc,omitempty" validate:"omitempty,email"` // BCC (optional, must be valid email if provided)
+	C  string `json:"cc,omitempty" validate:"omitempty,email"`  // CC (optional, must be valid email if provided)
 }
 
-func SendMail(pEmailDetails EmailInput, pClientId string) {
+func SendMail(pEmailDetails EmailInput) {
 
 	// Create a new mail message
 	email := mail.NewMessage()
