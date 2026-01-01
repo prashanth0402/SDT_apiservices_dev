@@ -4,12 +4,14 @@ import (
 	config "SDT_ApiServices/Config"
 	services "SDT_ApiServices/Services"
 	"SDT_ApiServices/middlewarex"
+	"SDT_ApiServices/uihandlers"
 	"fmt"
 	"net/http"
 
-	_ "SDT_ApiServices/docs" // MUST import the generated docs
+	_ "SDT_ApiServices/docs"
 
-	httpSwagger "github.com/swaggo/http-swagger" // Swagger UI handler
+	"github.com/gin-gonic/gin"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // @title           SDT API Services
@@ -18,17 +20,34 @@ import (
 // @host            localhost:8080
 // @BasePath        /
 func main() {
-	r := middlewarex.SetupRouter()
 
 	cfg := config.LoadConfig()
 
-	// ✅ Register your API endpoints
+	// 🔹 Create Gin Router
+	g := gin.Default()
+
+	// 🔹 Load HTML templates
+	g.LoadHTMLGlob("templates/**/*")
+
+	// 🔹 Welcome Page (Internal Testing UI)
+
+	g.GET("/", uihandlers.WelcomePage)
+
+	// 🔹 Use your existing router inside Gin
+	r := middlewarex.SetupRouter()
+
+	// Existing APIs
 	r.MethodFunc(http.MethodGet, "/getconnection", services.GetConnection)
 
-	// ✅ Swagger UI will be available at: http://localhost:8080/swagger/index.html
+	// Swagger
 	r.Get("/swagger/*", httpSwagger.WrapHandler)
 
-	fmt.Println("Server running on http://localhost:8080", cfg)
-	fmt.Println("http://localhost:8080/swagger/index.html")
-	http.ListenAndServe(":"+cfg.Port, r)
+	// 🔹 Mount old router into Gin
+	g.Any("/api/*any", gin.WrapH(r))
+
+	fmt.Println("Server running on http://localhost:" + cfg.Port)
+	fmt.Println("Swagger: http://localhost:" + cfg.Port + "/api/swagger/index.html")
+
+	// 🔹 Start Gin Server
+	g.Run(":" + cfg.Port)
 }

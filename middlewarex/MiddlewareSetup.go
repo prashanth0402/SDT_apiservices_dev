@@ -1,9 +1,8 @@
 package middlewarex
 
 import (
+	config "SDT_ApiServices/Config"
 	"time"
-
-	"SDT_ApiServices/config"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
