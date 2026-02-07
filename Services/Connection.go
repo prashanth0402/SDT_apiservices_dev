@@ -1,9 +1,9 @@
 package services
 
 import (
-	"SDT_ApiServices/common"
-	"fmt"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // GetConnection godoc
@@ -12,27 +12,11 @@ import (
 // @Tags         Health
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  map[string]string  "Returns connection status"
-// @Failure      405  {object}  map[string]string  "Method Not Allowed"
+// @Success      200  {object}  map[string]string
 // @Router       /getconnection [get]
-func GetConnection(w http.ResponseWriter, r *http.Request) {
-	(w).Header().Set("Access-Control-Allow-Origin", common.AllowOrgin)
-	(w).Header().Set("Access-Control-Allow-Credentials", "true")
-	(w).Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-	(w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	// Handle preflight OPTIONS request
-	if r.Method == http.MethodOptions {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
+func GetConnection(c *gin.Context) {
 
-	// Only allow GET requests
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, `{"message": "Connection Established"}`)
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Connection Established",
+	})
 }
