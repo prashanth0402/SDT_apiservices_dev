@@ -13,9 +13,9 @@ import (
 
 type mongoRepository struct{}
 
-func NewMongoRepository() mongoRepository {
-	return &mongoRepository{}
-}
+// func NewMongoRepository() mongoRepository {
+// 	return &mongoRepository{}
+// }
 
 func (r *mongoRepository) Execute(req models.MongoDynamicRequest) (interface{}, error) {
 
