@@ -1,7 +1,7 @@
 package DataBase
 
 import (
-	"SDT_ApiServices/DataBase/models"
+	"SDT_ApiServices/DataBase/SQL/models"
 	"fmt"
 	"net/http"
 

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"SDT_ApiServices/DataBase/models"
+	"SDT_ApiServices/DataBase/SQL/models"
 	"errors"
 	"fmt"
 	"strings"
