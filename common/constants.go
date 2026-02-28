@@ -50,6 +50,9 @@ const (
 	AUTOBOT       = "AUTOBOT"
 	Mobile        = "M"
 	Web           = "W"
+	MYSQL         = "MYSQL"
+	POSTGRES      = "POSTGRES"
+	MONGODB       = "MONGODB"
 )
 
 var ABHIAllowOrigin []string

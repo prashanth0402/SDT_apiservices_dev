@@ -1,4 +1,76 @@
 basePath: /
+definitions:
+  DbConnect.DBAuthRequest:
+    properties:
+      host:
+        example: localhost
+        type: string
+      password:
+        example: "123456"
+        type: string
+      port:
+        example: "3306"
+        type: string
+      type:
+        enum:
+        - mysql
+        - postgres
+        example: mysql
+        type: string
+      username:
+        example: root
+        type: string
+    required:
+    - host
+    - password
+    - port
+    - type
+    - username
+    type: object
+  campaign.CampaignRequest:
+    properties:
+      channel:
+        description: 'Channel type: email, whatsapp, telegram'
+        enum:
+        - email
+        - whatsapp
+        - telegram
+        type: string
+      emails:
+        description: Emails to send (for email campaigns)
+        items:
+          $ref: '#/definitions/email.EmailInput'
+        type: array
+    required:
+    - channel
+    - emails
+    type: object
+  email.EmailInput:
+    properties:
+      bcc:
+        description: BCC (optional, must be valid email if provided)
+        type: string
+      body:
+        description: Body (required)
+        type: string
+      cc:
+        description: CC (optional, must be valid email if provided)
+        type: string
+      from:
+        description: From email (required, must be valid email)
+        type: string
+      subject:
+        description: Subject (required)
+        type: string
+      to:
+        description: To recipient (required, must be valid email)
+        type: string
+    required:
+    - body
+    - from
+    - subject
+    - to
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -6,6 +78,66 @@ info:
   title: SDT API Services
   version: "1.0"
 paths:
+  /campaign:
+    post:
+      consumes:
+      - application/json
+      description: Send campaign messages via email/WhatsApp/Telegram
+      parameters:
+      - description: Campaign Request
+        in: body
+        name: campaign
+        required: true
+        schema:
+          $ref: '#/definitions/campaign.CampaignRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Campaign started
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+      summary: Start a messaging campaign
+      tags:
+      - Campaign
+  /checkdb:
+    post:
+      consumes:
+      - application/json
+      description: Checks only server connectivity (host + port + credentials). Does
+        NOT verify database existence.
+      parameters:
+      - description: Database Authentication Details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/DbConnect.DBAuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Connection successful
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request body
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Check Database Server Connection
+      tags:
+      - Database
   /getconnection:
     get:
       consumes:
@@ -16,13 +148,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Returns connection status
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "405":
-          description: Method Not Allowed
+          description: OK
           schema:
             additionalProperties:
               type: string

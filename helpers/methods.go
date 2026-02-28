@@ -6,13 +6,6 @@ import (
 	"log"
 )
 
-// Error_Response represents a standard JSON error response.
-// Example: {"status":"ERROR", "errMsg":"Invalid input"}
-type Error_Response struct {
-	Status string `json:"status"`
-	ErrMsg string `json:"errMsg"`
-}
-
 // Msg_Response represents a standard JSON success response.
 // Example: {"status":"SUCCESS", "errMsg":"Operation completed"}
 type Msg_Response struct {
@@ -46,7 +39,7 @@ func GetSuccessString(Msg string) string {
 // → {"status":"ERROR","errMsg":"400/Invalid Email"}
 func GetErrorString(ErrCode string, ErrDescription string, pErr error) string {
 	log.Println(ErrCode, pErr)
-	var Err_Response Error_Response
+	var Err_Response Msg_Response
 	Err_Response.Status = common.ErrorCode
 	Err_Response.ErrMsg = ErrCode + "/" + ErrDescription
 
@@ -58,4 +51,9 @@ func GetErrorString(ErrCode string, ErrDescription string, pErr error) string {
 
 	return string(lResult)
 
+}
+
+// CheckError returns true if error exists and prints error code + message
+func CheckError(err error) bool {
+	return err != nil
 }

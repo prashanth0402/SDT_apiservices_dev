@@ -1,6 +1,7 @@
 package main
 
 import (
+	"SDT_ApiServices/DataBase"
 	services "SDT_ApiServices/Services"
 	"SDT_ApiServices/middlewarex"
 
@@ -10,11 +11,6 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// @title           SDT API Services
-// @version         1.0
-// @description     Simple API service with a health check endpoint.
-// @host            localhost:8080
-// @BasePath        /
 // func main() {
 
 // 	cfg := config.LoadConfig()
@@ -44,15 +40,22 @@ import (
 // 	fmt.Println("Server running on http://localhost:" + cfg.Port)
 // 	fmt.Println("Swagger: http://localhost:" + cfg.Port + "/api/swagger/index.html")
 
-// 	// 🔹 Start Gin Server
-// 	g.Run(":" + cfg.Port)
-// }
-
+//		// 🔹 Start Gin Server
+//		g.Run(":" + cfg.Port)
+//	}
+//
+// @title           SDT API Services
+// @version         1.0
+// @description     Simple API service with a health check endpoint.
+// @host            localhost:8080
+// @BasePath        /
 func main() {
 
 	r := middlewarex.SetupRouter()
 
 	r.GET("/getconnection", services.GetConnection)
+	r.POST("/checkdb", DataBase.CheckDataBaseConnection)
+
 	r.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
 
 	r.Run(":8080")

@@ -9,6 +9,95 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
+        "/campaign": {
+            "post": {
+                "description": "Send campaign messages via email/WhatsApp/Telegram",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Start a messaging campaign",
+                "parameters": [
+                    {
+                        "description": "Campaign Request",
+                        "name": "campaign",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/campaign.CampaignRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Campaign started",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/checkdb": {
+            "post": {
+                "description": "Checks only server connectivity (host + port + credentials). Does NOT verify database existence.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Database"
+                ],
+                "summary": "Check Database Server Connection",
+                "parameters": [
+                    {
+                        "description": "Database Authentication Details",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DbConnect.DBAuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Connection successful",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/getconnection": {
             "get": {
                 "description": "Returns a simple JSON response to confirm that the API service is up.",
@@ -24,16 +113,7 @@
                 "summary": "Check API Connection",
                 "responses": {
                     "200": {
-                        "description": "Returns connection status",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "Method Not Allowed",
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -41,6 +121,104 @@
                             }
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "DbConnect.DBAuthRequest": {
+            "type": "object",
+            "required": [
+                "host",
+                "password",
+                "port",
+                "type",
+                "username"
+            ],
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "example": "localhost"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "port": {
+                    "type": "string",
+                    "example": "3306"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "mysql",
+                        "postgres"
+                    ],
+                    "example": "mysql"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "root"
+                }
+            }
+        },
+        "campaign.CampaignRequest": {
+            "type": "object",
+            "required": [
+                "channel",
+                "emails"
+            ],
+            "properties": {
+                "channel": {
+                    "description": "Channel type: email, whatsapp, telegram",
+                    "type": "string",
+                    "enum": [
+                        "email",
+                        "whatsapp",
+                        "telegram"
+                    ]
+                },
+                "emails": {
+                    "description": "Emails to send (for email campaigns)",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/email.EmailInput"
+                    }
+                }
+            }
+        },
+        "email.EmailInput": {
+            "type": "object",
+            "required": [
+                "body",
+                "from",
+                "subject",
+                "to"
+            ],
+            "properties": {
+                "bcc": {
+                    "description": "BCC (optional, must be valid email if provided)",
+                    "type": "string"
+                },
+                "body": {
+                    "description": "Body (required)",
+                    "type": "string"
+                },
+                "cc": {
+                    "description": "CC (optional, must be valid email if provided)",
+                    "type": "string"
+                },
+                "from": {
+                    "description": "From email (required, must be valid email)",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "Subject (required)",
+                    "type": "string"
+                },
+                "to": {
+                    "description": "To recipient (required, must be valid email)",
+                    "type": "string"
                 }
             }
         }
