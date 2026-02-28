@@ -1,4 +1,4 @@
-package DataBase
+package sql
 
 import (
 	"SDT_ApiServices/DataBase/SQL/models"

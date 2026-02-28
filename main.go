@@ -1,7 +1,8 @@
 package main
 
 import (
-	"SDT_ApiServices/DataBase"
+	sql "SDT_ApiServices/DataBase/SQL"
+	"SDT_ApiServices/DataBase/SQL/handler"
 	services "SDT_ApiServices/Services"
 	"SDT_ApiServices/middlewarex"
 
@@ -54,7 +55,8 @@ func main() {
 	r := middlewarex.SetupRouter()
 
 	r.GET("/getconnection", services.GetConnection)
-	r.POST("/checkdb", DataBase.CheckDataBaseConnection)
+	r.POST("/checkdb", sql.CheckDataBaseConnection)
+	r.POST("/excecutesqlquery", handler.ExecuteSQLQuery)
 
 	r.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
 

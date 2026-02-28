@@ -2,6 +2,7 @@ package handler
 
 import (
 	DataBase "SDT_ApiServices/DataBase/SQL"
+
 	"SDT_ApiServices/DataBase/SQL/models"
 	"SDT_ApiServices/DataBase/SQL/service"
 	"SDT_ApiServices/DataBase/SQL/validators"
@@ -38,7 +39,7 @@ func ExecuteSQLQuery(c *gin.Context) {
 
 	db, err := DataBase.ConnectDB(req.DBConnection.Type, dsn)
 
-	result, err := ExecuteDynamic(&db, &req)
+	result, err := ExecuteDynamic(db, &req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

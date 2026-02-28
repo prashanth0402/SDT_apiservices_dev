@@ -1,7 +1,7 @@
 package validators
 
 import (
-	"SDT_ApiServices/DataBase/models"
+	"SDT_ApiServices/DataBase/sql/models"
 	"errors"
 )
 
