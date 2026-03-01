@@ -9,19 +9,27 @@ func IsEmpty(s string) bool {
 	return strings.TrimSpace(s) == ""
 }
 
-func IsNullorEmptylist(list []any) bool {
+func IsNull(list []any) bool {
 	return list == nil
 }
 
 //
 // 2. Case-Sensitive Exact Match (Fast)
 //
-func UseStringComparer(value string, list []string) bool {
+func MultipleStringComparer(value string, list []string) bool {
 	return ExistsInSet(value, BuildStringSet(list))
 }
 
+func StringComparer(value string, value2 string) bool {
+	return strings.Compare(ToLower(value), ToLower(value2)) == 0
+}
+
+func StringContains(value string, value2 string) bool {
+	return strings.Contains(ToLower(value), ToLower(value2))
+}
+
 // 4. Fast Contains (substring check)
-func ContainsWord(text string, words []string) bool {
+func MultipleContains(text string, words []string) bool {
 	text = strings.ToLower(text)
 	for _, word := range words {
 		return strings.Contains(text, word) == true
@@ -55,4 +63,18 @@ func HandleEmptyMap(Data map[string]string) map[string]string {
 		return make(map[string]string)
 	}
 	return Data
+}
+
+func Ternary[T any](condition bool, trueVal, falseVal T) T {
+	if condition {
+		return trueVal
+	}
+	return falseVal
+}
+
+func TernaryFunc[T any](condition bool, trueFunc, falseFunc func() T) T {
+	if condition {
+		return trueFunc()
+	}
+	return falseFunc()
 }
