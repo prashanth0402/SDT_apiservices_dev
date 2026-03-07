@@ -2,6 +2,8 @@ package middlewarex
 
 import (
 	config "SDT_ApiServices/Config"
+	"io"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -13,6 +15,12 @@ import (
 func SetupRouter() *gin.Engine {
 
 	r := gin.New()
+
+	// Disable Console Color, you don't need console color when writing the logs to file.
+	// gin.DisableConsoleColor()
+	// Use the following code if you need to write the logs to file and console at the same time.
+	f, _ := os.Create("Service.log")
+	gin.DefaultWriter = io.MultiWriter(f)
 
 	// -----------------------------
 	// Core Middlewares (Gin native)

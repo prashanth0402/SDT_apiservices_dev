@@ -1,5 +1,7 @@
 package utility
 
+import "strings"
+
 // filtered := Filter(nums, func(n int) bool {
 // 	return n > 3
 // })
@@ -53,4 +55,23 @@ func FlatMap[T any, R any](items []T, mapper func(T) []R) []R {
 		result = append(result, mapper(item)...)
 	}
 	return result
+}
+
+func ConvertArrayToString(array []string) string {
+	var builder strings.Builder
+
+	for i, str := range array {
+		builder.WriteString("'")
+		builder.WriteString(str)
+		builder.WriteString("'")
+		// Add comma if it's not the last element
+		if i != len(array)-1 {
+			builder.WriteString(",")
+		}
+	}
+	if array == nil {
+		return "''"
+	}
+
+	return builder.String()
 }

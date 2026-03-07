@@ -9,8 +9,14 @@ func IsEmpty(s string) bool {
 	return strings.TrimSpace(s) == ""
 }
 
+// IsNull returns true if error exists and prints error code + message
 func IsNull(list []any) bool {
 	return list == nil
+}
+
+// IsError returns true if error exists and prints error code + message
+func IsError(err error) bool {
+	return err != nil
 }
 
 //
@@ -77,4 +83,18 @@ func TernaryFunc[T any](condition bool, trueFunc, falseFunc func() T) T {
 		return trueFunc()
 	}
 	return falseFunc()
+}
+
+func RemoveDuplicateStrings(arr []string) []string {
+	uniqueMap := make(map[string]bool)
+	result := []string{}
+
+	for _, item := range arr {
+		if !uniqueMap[item] {
+			uniqueMap[item] = true
+			result = append(result, item)
+		}
+	}
+
+	return result
 }
