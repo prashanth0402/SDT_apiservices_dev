@@ -3,6 +3,7 @@ package middlewarex
 import (
 	config "SDT_ApiServices/Config"
 	"io"
+	"log"
 	"os"
 	"time"
 
@@ -21,6 +22,7 @@ func SetupRouter() *gin.Engine {
 	// Use the following code if you need to write the logs to file and console at the same time.
 	f, _ := os.Create("Service.log")
 	gin.DefaultWriter = io.MultiWriter(f)
+	log.SetOutput(f)
 
 	// -----------------------------
 	// Core Middlewares (Gin native)

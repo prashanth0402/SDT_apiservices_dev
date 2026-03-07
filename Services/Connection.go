@@ -15,7 +15,6 @@ import (
 // @Success      200  {object}  map[string]string
 // @Router       /getconnection [get]
 func GetConnection(c *gin.Context) {
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Connection Established",
 	})
