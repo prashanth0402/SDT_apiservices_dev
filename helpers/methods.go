@@ -15,14 +15,10 @@ type Msg_Response struct {
 // It takes a message and wraps it in Msg_Response format.
 // Example: GetSuccessString("User created") → {"status":"SUCCESS","errMsg":"User created"}
 func GetSuccessString(Msg string) Msg_Response {
-
 	var Msg_Res Msg_Response
-
 	Msg_Res.Status = common.SUCCESSCODE
 	Msg_Res.ErrMsg = Msg
-
 	return Msg_Res
-
 }
 
 // GetErrorString returns a JSON string for error responses.
