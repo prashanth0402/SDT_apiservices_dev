@@ -4,7 +4,9 @@ import (
 	sql "SDT_ApiServices/DataBase/SQL"
 	"SDT_ApiServices/DataBase/SQL/handler"
 	services "SDT_ApiServices/Services"
+	gpt "SDT_ApiServices/Services/AI/GPT"
 	"SDT_ApiServices/middlewarex"
+	"fmt"
 
 	_ "SDT_ApiServices/docs"
 
@@ -57,8 +59,12 @@ func main() {
 	r.GET("/getconnection", services.GetConnection)
 	r.POST("/checkdb", sql.CheckDataBaseConnection)
 	r.POST("/excecutesqlquery", handler.ExecuteSQLQuery)
+	r.POST("/gpthandler", gpt.GPTHandler)
 
 	r.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
+
+	fmt.Println("Server running on http://localhost:" + "8080")
+	fmt.Println("Swagger: http://localhost:" + "8080" + "/api/swagger/index.html")
 
 	r.Run(":8080")
 

@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"SDT_ApiServices/common"
+	"log"
 )
 
 // Msg_Response represents a standard JSON success response.
@@ -29,5 +30,20 @@ func GetErrorString(ErrCode string, ErrDescription string, pErr error) Msg_Respo
 	var Err_Response Msg_Response
 	Err_Response.Status = common.ErrorCode
 	Err_Response.ErrMsg = ErrCode + "/" + ErrDescription
+	log.Println("Err_Response", Err_Response)
 	return Err_Response
 }
+
+// func Error_Response(c *gin.Context, ErrCode string, ErrDescription string, pErr error) {
+// 	c.JSON(http.StatusBadRequest, GetErrorString(ErrCode, ErrDescription, pErr))
+// 	return
+// }
+// func success_Response(c *gin.Context, Msg string) {
+// 	c.JSON(http.StatusOK, GetSuccessString(Msg))
+// 	return
+// }
+
+// func InternalServerError(c *gin.Context, ErrCode string, ErrDescription string, pErr error) {
+// 	c.JSON(http.StatusInternalServerError, GetErrorString(ErrCode, ErrDescription, pErr))
+// 	return
+// }

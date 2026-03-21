@@ -1,32 +1,5 @@
 basePath: /
 definitions:
-  DbConnect.DBAuthRequest:
-    properties:
-      host:
-        example: localhost
-        type: string
-      password:
-        example: "123456"
-        type: string
-      port:
-        example: "3306"
-        type: string
-      type:
-        enum:
-        - mysql
-        - postgres
-        example: mysql
-        type: string
-      username:
-        example: root
-        type: string
-    required:
-    - host
-    - password
-    - port
-    - type
-    - username
-    type: object
   campaign.CampaignRequest:
     properties:
       channel:
@@ -70,6 +43,48 @@ definitions:
     - from
     - subject
     - to
+    type: object
+  gpt.ChatBotRequest:
+    properties:
+      agent:
+        example: You are a helpful assistant
+        type: string
+      model:
+        example: gpt-4o-mini
+        type: string
+      openAi_ApI_key:
+        example: sk-1234567890abcdef
+        type: string
+      prompt:
+        example: Explain Golang in simple terms
+        type: string
+    type: object
+  models.DBAuthRequest:
+    properties:
+      host:
+        example: localhost
+        type: string
+      password:
+        example: "123456"
+        type: string
+      port:
+        example: "3306"
+        type: string
+      type:
+        enum:
+        - mysql
+        - postgres
+        example: mysql
+        type: string
+      username:
+        example: root
+        type: string
+    required:
+    - host
+    - password
+    - port
+    - type
+    - username
     type: object
 host: localhost:8080
 info:
@@ -116,7 +131,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/DbConnect.DBAuthRequest'
+          $ref: '#/definitions/models.DBAuthRequest'
       produces:
       - application/json
       responses:
@@ -156,4 +171,28 @@ paths:
       summary: Check API Connection
       tags:
       - Health
+  /gpthandler:
+    post:
+      consumes:
+      - application/json
+      description: Send prompt and get AI response
+      parameters:
+      - description: Chat Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gpt.ChatBotRequest'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Chat with GPT
+      tags:
+      - GPT
 swagger: "2.0"

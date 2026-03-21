@@ -16,7 +16,7 @@ import (
 func SetupRouter() *gin.Engine {
 
 	r := gin.New()
-
+	// gin.SetMode(gin.ReleaseMode)
 	// Disable Console Color, you don't need console color when writing the logs to file.
 	// gin.DisableConsoleColor()
 	// Use the following code if you need to write the logs to file and console at the same time.

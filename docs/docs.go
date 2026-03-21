@@ -75,7 +75,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/DbConnect.DBAuthRequest"
+                            "$ref": "#/definitions/models.DBAuthRequest"
                         }
                     }
                 ],
@@ -129,45 +129,46 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/gpthandler": {
+            "post": {
+                "description": "Send prompt and get AI response",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPT"
+                ],
+                "summary": "Chat with GPT",
+                "parameters": [
+                    {
+                        "description": "Chat Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gpt.ChatBotRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "DbConnect.DBAuthRequest": {
-            "type": "object",
-            "required": [
-                "host",
-                "password",
-                "port",
-                "type",
-                "username"
-            ],
-            "properties": {
-                "host": {
-                    "type": "string",
-                    "example": "localhost"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "123456"
-                },
-                "port": {
-                    "type": "string",
-                    "example": "3306"
-                },
-                "type": {
-                    "type": "string",
-                    "enum": [
-                        "mysql",
-                        "postgres"
-                    ],
-                    "example": "mysql"
-                },
-                "username": {
-                    "type": "string",
-                    "example": "root"
-                }
-            }
-        },
         "campaign.CampaignRequest": {
             "type": "object",
             "required": [
@@ -225,6 +226,63 @@ const docTemplate = `{
                 "to": {
                     "description": "To recipient (required, must be valid email)",
                     "type": "string"
+                }
+            }
+        },
+        "gpt.ChatBotRequest": {
+            "type": "object",
+            "properties": {
+                "agent": {
+                    "type": "string",
+                    "example": "You are a helpful assistant"
+                },
+                "model": {
+                    "type": "string",
+                    "example": "gpt-4o-mini"
+                },
+                "openAi_ApI_key": {
+                    "type": "string",
+                    "example": "sk-1234567890abcdef"
+                },
+                "prompt": {
+                    "type": "string",
+                    "example": "Explain Golang in simple terms"
+                }
+            }
+        },
+        "models.DBAuthRequest": {
+            "type": "object",
+            "required": [
+                "host",
+                "password",
+                "port",
+                "type",
+                "username"
+            ],
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "example": "localhost"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "port": {
+                    "type": "string",
+                    "example": "3306"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "mysql",
+                        "postgres"
+                    ],
+                    "example": "mysql"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "root"
                 }
             }
         }
