@@ -5,7 +5,6 @@ import (
 	"SDT_ApiServices/utility"
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -61,7 +60,6 @@ func ChatwithGemini(ctx context.Context, chatRequest models.ChatBotRequest) (str
 	if utility.IsError(err) {
 		return "", err
 	}
-	fmt.Println(result)
 	if utility.IsEmpty(result.Content) {
 		return "", errors.New("empty response from model")
 	}
