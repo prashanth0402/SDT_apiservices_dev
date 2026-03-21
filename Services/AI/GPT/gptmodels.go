@@ -1,6 +1,7 @@
 package gpt
 
 import (
+	models "SDT_ApiServices/Services/AI/Models"
 	"SDT_ApiServices/utility"
 	"context"
 	"errors"
@@ -13,24 +14,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ChatBotRequest struct {
-	OpenAI_API_Key string `json:"openAi_ApI_key" example:"sk-1234567890abcdef"`
-	Prompt         string `json:"prompt" example:"Explain Golang in simple terms"`
-	Agent          string `json:"agent" example:"You are a helpful assistant"`
-	Model          string `json:"model" example:"gpt-4o-mini"`
-}
-
 // GPTHandler godoc
 // @Summary Chat with GPT
 // @Description Send prompt and get AI response
 // @Tags GPT
 // @Accept json
 // @Produce json
-// @Param request body ChatBotRequest true "Chat Request"
+// @Param request body models.ChatBotRequest true "ChatBotRequest"
 // @Failure 400 {object} map[string]string
 // @Router /gpthandler [post]
 func GPTHandler(c *gin.Context) {
-	var req ChatBotRequest
+	var req models.ChatBotRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -57,20 +51,19 @@ func GPTHandler(c *gin.Context) {
 }
 
 // ChatwithGPT handles LLM interaction
-func ChatwithGPT(ctx context.Context, chatRequest ChatBotRequest) (string, error) {
+func ChatwithGPT(ctx context.Context, chatRequest models.ChatBotRequest) (string, error) {
 
 	if utility.IsEmpty(chatRequest.OpenAI_API_Key) {
 		return "", errors.New("API key is required")
 	}
 
 	// Default model
-	model := chatRequest.Model
-	if model == "" {
-		model = "gpt-4o-mini"
+	if utility.IsEmpty(chatRequest.Model) {
+		chatRequest.Model = "gpt-4o-mini"
 	}
 
 	// Create provider
-	p := provider.NewOpenAIProvider(chatRequest.OpenAI_API_Key, model)
+	p := provider.NewOpenAIProvider(chatRequest.OpenAI_API_Key, chatRequest.Model)
 
 	// System prompt
 	// systemPrompt := "You are a helpful assistant."
@@ -95,7 +88,7 @@ func ChatwithGPT(ctx context.Context, chatRequest ChatBotRequest) (string, error
 		domain.WithTemperature(0.7),
 		domain.WithMaxTokens(200),
 	)
-	if err != nil {
+	if utility.IsError(err) {
 		return "", err
 	}
 

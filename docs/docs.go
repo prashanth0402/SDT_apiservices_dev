@@ -104,6 +104,43 @@ const docTemplate = `{
                 }
             }
         },
+        "/geminihandler": {
+            "post": {
+                "description": "Send prompt to Gemini and get response",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Gemini"
+                ],
+                "summary": "Chat with Gemini AI",
+                "parameters": [
+                    {
+                        "description": "ChatBotRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ChatBotRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/getconnection": {
             "get": {
                 "description": "Returns a simple JSON response to confirm that the API service is up.",
@@ -145,12 +182,12 @@ const docTemplate = `{
                 "summary": "Chat with GPT",
                 "parameters": [
                     {
-                        "description": "Chat Request",
+                        "description": "ChatBotRequest",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gpt.ChatBotRequest"
+                            "$ref": "#/definitions/models.ChatBotRequest"
                         }
                     }
                 ],
@@ -229,12 +266,16 @@ const docTemplate = `{
                 }
             }
         },
-        "gpt.ChatBotRequest": {
+        "models.ChatBotRequest": {
             "type": "object",
             "properties": {
                 "agent": {
                     "type": "string",
                     "example": "You are a helpful assistant"
+                },
+                "geminiAi_ApI_key": {
+                    "type": "string",
+                    "example": "sk-1234567890abcdef"
                 },
                 "model": {
                     "type": "string",

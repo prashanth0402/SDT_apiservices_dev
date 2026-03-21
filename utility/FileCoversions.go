@@ -6,6 +6,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/ledongthuc/pdf"
 )
 
 // ConvertPDFToDocx converts PDF (text or scanned) to DOCX
@@ -66,4 +68,20 @@ func runLibreOfficeConversion(inputPath, outputDir, targetFormat string) (string
 func getOutputFileName(inputPath, targetFormat string) string {
 	base := strings.TrimSuffix(filepath.Base(inputPath), filepath.Ext(inputPath))
 	return base + "." + targetFormat
+}
+
+func ExtractTextFromPDF(path string) string {
+	f, r, _ := pdf.Open(path)
+	defer f.Close()
+
+	var text string
+	for i := 1; i <= r.NumPage(); i++ {
+		p := r.Page(i)
+		if p.V.IsNull() {
+			continue
+		}
+		content, _ := p.GetPlainText(nil)
+		text += content
+	}
+	return text
 }

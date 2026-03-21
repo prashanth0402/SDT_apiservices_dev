@@ -5,6 +5,7 @@ import (
 	"SDT_ApiServices/DataBase/SQL/handler"
 	services "SDT_ApiServices/Services"
 	gpt "SDT_ApiServices/Services/AI/GPT"
+	gemini "SDT_ApiServices/Services/AI/Gemini"
 	"SDT_ApiServices/middlewarex"
 	"fmt"
 
@@ -60,6 +61,7 @@ func main() {
 	r.POST("/checkdb", sql.CheckDataBaseConnection)
 	r.POST("/excecutesqlquery", handler.ExecuteSQLQuery)
 	r.POST("/gpthandler", gpt.GPTHandler)
+	r.POST("/geminihandler", gemini.GemniHandler)
 
 	r.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
 

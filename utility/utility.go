@@ -16,7 +16,7 @@ func IsNull(list []any) bool {
 
 // IsError returns true if error exists and prints error code + message
 func IsError(err error) bool {
-	return err != nil
+	return err == nil
 }
 
 //

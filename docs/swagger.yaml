@@ -44,10 +44,13 @@ definitions:
     - subject
     - to
     type: object
-  gpt.ChatBotRequest:
+  models.ChatBotRequest:
     properties:
       agent:
         example: You are a helpful assistant
+        type: string
+      geminiAi_ApI_key:
+        example: sk-1234567890abcdef
         type: string
       model:
         example: gpt-4o-mini
@@ -153,6 +156,30 @@ paths:
       summary: Check Database Server Connection
       tags:
       - Database
+  /geminihandler:
+    post:
+      consumes:
+      - application/json
+      description: Send prompt to Gemini and get response
+      parameters:
+      - description: ChatBotRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChatBotRequest'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Chat with Gemini AI
+      tags:
+      - Gemini
   /getconnection:
     get:
       consumes:
@@ -177,12 +204,12 @@ paths:
       - application/json
       description: Send prompt and get AI response
       parameters:
-      - description: Chat Request
+      - description: ChatBotRequest
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/gpt.ChatBotRequest'
+          $ref: '#/definitions/models.ChatBotRequest'
       produces:
       - application/json
       responses:
