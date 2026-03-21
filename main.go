@@ -6,6 +6,7 @@ import (
 	services "SDT_ApiServices/Services"
 	gpt "SDT_ApiServices/Services/AI/GPT"
 	gemini "SDT_ApiServices/Services/AI/Gemini"
+	serpapi "SDT_ApiServices/Services/SerpApi"
 	"SDT_ApiServices/middlewarex"
 	"fmt"
 
@@ -62,6 +63,7 @@ func main() {
 	r.POST("/excecutesqlquery", handler.ExecuteSQLQuery)
 	r.POST("/gpthandler", gpt.GPTHandler)
 	r.POST("/geminihandler", gemini.GemniHandler)
+	r.POST("/googlesearch", serpapi.GoogleSearch)
 
 	r.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
 

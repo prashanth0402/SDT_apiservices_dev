@@ -167,6 +167,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/googlesearch": {
+            "post": {
+                "description": "Fetch Google search results using SerpAPI",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Google Search API",
+                "parameters": [
+                    {
+                        "description": "Search Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/serpapi.GoogleSearchRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/serpapi.SearchResult"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/gpthandler": {
             "post": {
                 "description": "Send prompt and get AI response",
@@ -324,6 +370,41 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "root"
+                }
+            }
+        },
+        "serpapi.GoogleSearchRequest": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string",
+                    "example": "us"
+                },
+                "lang": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "location": {
+                    "type": "string",
+                    "example": "Austin, Texas, United States"
+                },
+                "query": {
+                    "type": "string",
+                    "example": "Coffee"
+                }
+            }
+        },
+        "serpapi.SearchResult": {
+            "type": "object",
+            "properties": {
+                "link": {
+                    "type": "string"
+                },
+                "snippet": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         }

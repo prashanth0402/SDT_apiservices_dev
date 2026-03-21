@@ -89,6 +89,30 @@ definitions:
     - type
     - username
     type: object
+  serpapi.GoogleSearchRequest:
+    properties:
+      country:
+        example: us
+        type: string
+      lang:
+        example: en
+        type: string
+      location:
+        example: Austin, Texas, United States
+        type: string
+      query:
+        example: Coffee
+        type: string
+    type: object
+  serpapi.SearchResult:
+    properties:
+      link:
+        type: string
+      snippet:
+        type: string
+      title:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -198,6 +222,36 @@ paths:
       summary: Check API Connection
       tags:
       - Health
+  /googlesearch:
+    post:
+      consumes:
+      - application/json
+      description: Fetch Google search results using SerpAPI
+      parameters:
+      - description: Search Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/serpapi.GoogleSearchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/serpapi.SearchResult'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Google Search API
+      tags:
+      - Search
   /gpthandler:
     post:
       consumes:
