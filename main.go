@@ -64,6 +64,7 @@ func main() {
 	r.POST("/gpthandler", gpt.GPTHandler)
 	r.POST("/geminihandler", gemini.GemniHandler)
 	r.POST("/googlesearch", serpapi.GoogleSearch)
+	r.POST("/googlejobssearch", serpapi.GoogleJobsSearch)
 
 	r.GET("/swagger/*any", gin.WrapH(httpSwagger.WrapHandler))
 

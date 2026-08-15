@@ -62,7 +62,7 @@ func ExecuteDynamic(db *gorm.DB, req *models.DynamicRequest) (interface{}, error
 
 		switch strings.ToLower(req.Command) {
 
-		case "Insert":
+		case "create":
 			result, err = service.HandleCreate(tx, req)
 
 		case "select":

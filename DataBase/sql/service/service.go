@@ -31,7 +31,11 @@ func HandleSelect(tx *gorm.DB, req *models.DynamicRequest) (interface{}, error) 
 func ApplySelect(query *gorm.DB, columns []string) *gorm.DB {
 
 	if len(columns) > 0 {
-		query = query.Select(columns)
+		quoted := make([]string, len(columns))
+		for i, c := range columns {
+			quoted[i] = fmt.Sprintf(`"%s"`, c)
+		}
+		query = query.Select(quoted)
 	}
 
 	return query
@@ -40,7 +44,7 @@ func ApplySelect(query *gorm.DB, columns []string) *gorm.DB {
 func ApplyWhere(query *gorm.DB, where map[string]interface{}) *gorm.DB {
 
 	for key, value := range where {
-		query = query.Where(fmt.Sprintf("%s = ?", key), value)
+		query = query.Where(fmt.Sprintf(`"%s" = ?`, key), value)
 	}
 
 	return query
@@ -52,24 +56,24 @@ func ApplyFilters(query *gorm.DB, filters []models.Filter) *gorm.DB {
 
 		switch strings.ToLower(f.Operator) {
 
-		case "Eq":
-			query = query.Where(fmt.Sprintf("%s = ?", f.Field), f.Value)
+		case "eq":
+			query = query.Where(fmt.Sprintf(`"%s" = ?`, f.Field), f.Value)
 
 		case "gte":
-			query = query.Where(fmt.Sprintf("%s > ?", f.Field), f.Value)
+			query = query.Where(fmt.Sprintf(`"%s" > ?`, f.Field), f.Value)
 
 		case "lte":
-			query = query.Where(fmt.Sprintf("%s < ?", f.Field), f.Value)
+			query = query.Where(fmt.Sprintf(`"%s" < ?`, f.Field), f.Value)
 
 		case "like":
-			query = query.Where(fmt.Sprintf("%s LIKE ?", f.Field), "%"+fmt.Sprint(f.Value)+"%")
+			query = query.Where(fmt.Sprintf(`"%s" LIKE ?`, f.Field), "%"+fmt.Sprint(f.Value)+"%")
 		case "notlike":
-			query = query.Where(fmt.Sprintf("%s NOT LIKE ?", f.Field), "%"+fmt.Sprint(f.Value)+"%")
+			query = query.Where(fmt.Sprintf(`"%s" NOT LIKE ?`, f.Field), "%"+fmt.Sprint(f.Value)+"%")
 
 		case "in":
-			query = query.Where(fmt.Sprintf("%s IN ?", f.Field), f.Value)
+			query = query.Where(fmt.Sprintf(`"%s" IN ?`, f.Field), f.Value)
 		case "notin":
-			query = query.Where(fmt.Sprintf("%s NOT IN ?", f.Field), f.Value)
+			query = query.Where(fmt.Sprintf(`"%s" NOT IN ?`, f.Field), f.Value)
 		}
 	}
 	return query
@@ -115,7 +119,7 @@ func ApplySorting(query *gorm.DB, sortBy string, order string) *gorm.DB {
 		order = "asc"
 	}
 
-	return query.Order(sortBy + " " + order)
+	return query.Order(fmt.Sprintf(`"%s" %s`, sortBy, order))
 }
 
 func HandleDelete(tx *gorm.DB, req *models.DynamicRequest) (interface{}, error) {
