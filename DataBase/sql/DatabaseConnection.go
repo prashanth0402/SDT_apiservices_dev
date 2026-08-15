@@ -1,7 +1,7 @@
 package sql
 
 import (
-	"SDT_ApiServices/DataBase/SQL/models"
+	"github.com/prashanth0402/SDT_apiservices_dev/DataBase/sql/models"
 	"fmt"
 	"net/http"
 

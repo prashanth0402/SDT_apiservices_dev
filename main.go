@@ -1,16 +1,16 @@
 package main
 
 import (
-	sql "SDT_ApiServices/DataBase/SQL"
-	"SDT_ApiServices/DataBase/SQL/handler"
-	services "SDT_ApiServices/Services"
-	gpt "SDT_ApiServices/Services/AI/GPT"
-	gemini "SDT_ApiServices/Services/AI/Gemini"
-	serpapi "SDT_ApiServices/Services/SerpApi"
-	"SDT_ApiServices/middlewarex"
+	sql "github.com/prashanth0402/SDT_apiservices_dev/DataBase/sql"
+	"github.com/prashanth0402/SDT_apiservices_dev/DataBase/sql/handler"
+	services "github.com/prashanth0402/SDT_apiservices_dev/Services"
+	gpt "github.com/prashanth0402/SDT_apiservices_dev/Services/AI/GPT"
+	gemini "github.com/prashanth0402/SDT_apiservices_dev/Services/AI/Gemini"
+	serpapi "github.com/prashanth0402/SDT_apiservices_dev/Services/SerpApi"
+	"github.com/prashanth0402/SDT_apiservices_dev/middlewarex"
 	"fmt"
 
-	_ "SDT_ApiServices/docs"
+	_ "github.com/prashanth0402/SDT_apiservices_dev/docs"
 
 	"github.com/gin-gonic/gin"
 	httpSwagger "github.com/swaggo/http-swagger"

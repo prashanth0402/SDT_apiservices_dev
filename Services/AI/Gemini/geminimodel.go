@@ -1,8 +1,8 @@
 package gemini
 
 import (
-	models "SDT_ApiServices/Services/AI/Models"
-	"SDT_ApiServices/utility"
+	models "github.com/prashanth0402/SDT_apiservices_dev/Services/AI/Models"
+	"github.com/prashanth0402/SDT_apiservices_dev/utility"
 	"context"
 	"errors"
 	"net/http"

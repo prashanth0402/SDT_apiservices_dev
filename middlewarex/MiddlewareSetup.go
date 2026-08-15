@@ -1,7 +1,7 @@
 package middlewarex
 
 import (
-	config "SDT_ApiServices/Config"
+	config "github.com/prashanth0402/SDT_apiservices_dev/Config"
 	"io"
 	"log"
 	"os"

@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"SDT_ApiServices/common"
+	"github.com/prashanth0402/SDT_apiservices_dev/common"
 	"log"
 )
 

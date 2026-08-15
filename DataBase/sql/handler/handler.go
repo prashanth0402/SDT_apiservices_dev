@@ -1,11 +1,11 @@
 package handler
 
 import (
-	DataBase "SDT_ApiServices/DataBase/SQL"
+	DataBase "github.com/prashanth0402/SDT_apiservices_dev/DataBase/sql"
 
-	"SDT_ApiServices/DataBase/SQL/models"
-	"SDT_ApiServices/DataBase/SQL/service"
-	"SDT_ApiServices/DataBase/SQL/validators"
+	"github.com/prashanth0402/SDT_apiservices_dev/DataBase/sql/models"
+	"github.com/prashanth0402/SDT_apiservices_dev/DataBase/sql/service"
+	"github.com/prashanth0402/SDT_apiservices_dev/DataBase/sql/validators"
 	"errors"
 	"net/http"
 	"strings"

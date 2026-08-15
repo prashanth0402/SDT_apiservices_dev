@@ -1,8 +1,8 @@
 package service
 
 import (
-	"SDT_ApiServices/DataBase/mongo/connection"
-	"SDT_ApiServices/DataBase/mongo/models"
+	"github.com/prashanth0402/SDT_apiservices_dev/DataBase/mongo/connection"
+	"github.com/prashanth0402/SDT_apiservices_dev/DataBase/mongo/models"
 	"context"
 	"time"
 

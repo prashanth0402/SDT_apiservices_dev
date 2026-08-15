@@ -1,4 +1,4 @@
-module SDT_apiservices_dev
+module github.com/prashanth0402/SDT_apiservices_dev
 
 go 1.25.1
 

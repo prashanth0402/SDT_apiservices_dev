@@ -1,7 +1,7 @@
 package campaign
 
 import (
-	email "SDT_ApiServices/Services/Campaign/Email"
+	email "github.com/prashanth0402/SDT_apiservices_dev/Services/Campaign/Email"
 	"encoding/json"
 	"log"
 	"net/http"
