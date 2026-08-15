@@ -1,4 +1,4 @@
-module SDT_ApiServices
+module SDT_apiservices_dev
 
 go 1.25.1
 
