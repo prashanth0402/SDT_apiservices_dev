@@ -1,10 +1,10 @@
 package gemini
 
 import (
-	models "github.com/prashanth0402/SDT_apiservices_dev/Services/AI/Models"
-	"github.com/prashanth0402/SDT_apiservices_dev/utility"
 	"context"
 	"errors"
+	models "github.com/prashanth0402/SDT_apiservices_dev/Services/AI/Models"
+	"github.com/prashanth0402/SDT_apiservices_dev/utility"
 	"net/http"
 	"time"
 
@@ -55,8 +55,23 @@ func ChatwithGemini(ctx context.Context, chatRequest models.ChatBotRequest) (str
 	}
 	p := provider.NewGeminiProvider(chatRequest.GeminiAI_API_Key, chatRequest.Model)
 	var messages []domain.Message
+	if chatRequest.Agent != "" {
+		messages = append(messages, domain.NewTextMessage(domain.RoleSystem, chatRequest.Agent))
+	}
 	messages = append(messages, domain.NewTextMessage(domain.RoleUser, chatRequest.Prompt))
-	result, err := p.GenerateMessage(ctx, messages, domain.WithMaxTokens(200))
+
+	maxTokens := 200
+	if chatRequest.MaxTokens > 0 {
+		maxTokens = chatRequest.MaxTokens
+	}
+	temperature := 0.7
+	if chatRequest.Temperature > 0 {
+		temperature = chatRequest.Temperature
+	}
+	result, err := p.GenerateMessage(ctx, messages,
+		domain.WithMaxTokens(maxTokens),
+		domain.WithTemperature(temperature),
+	)
 	if utility.IsError(err) {
 		return "", err
 	}

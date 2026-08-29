@@ -1,10 +1,10 @@
 package gpt
 
 import (
-	models "github.com/prashanth0402/SDT_apiservices_dev/Services/AI/Models"
-	"github.com/prashanth0402/SDT_apiservices_dev/utility"
 	"context"
 	"errors"
+	models "github.com/prashanth0402/SDT_apiservices_dev/Services/AI/Models"
+	"github.com/prashanth0402/SDT_apiservices_dev/utility"
 	"net/http"
 	"time"
 
@@ -82,11 +82,24 @@ func ChatwithGPT(ctx context.Context, chatRequest models.ChatBotRequest) (string
 	// }
 
 	var messages []domain.Message
+	if chatRequest.Agent != "" {
+		messages = append(messages, domain.NewTextMessage(domain.RoleSystem, chatRequest.Agent))
+	}
 	messages = append(messages, domain.NewTextMessage(domain.RoleUser, chatRequest.Prompt))
+
+	temperature := 0.7
+	if chatRequest.Temperature > 0 {
+		temperature = chatRequest.Temperature
+	}
+	maxTokens := 200
+	if chatRequest.MaxTokens > 0 {
+		maxTokens = chatRequest.MaxTokens
+	}
+
 	// Call LLM (CORRECT WAY ✅)
 	result, err := p.GenerateMessage(ctx, messages,
-		domain.WithTemperature(0.7),
-		domain.WithMaxTokens(200),
+		domain.WithTemperature(temperature),
+		domain.WithMaxTokens(maxTokens),
 	)
 	if utility.IsError(err) {
 		return "", err
